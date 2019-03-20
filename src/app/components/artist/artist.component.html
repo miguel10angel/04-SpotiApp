@@ -1,0 +1,78 @@
+<app-loading [hidden]="!loading"></app-loading>
+
+<div class="row animated fadeIn" *ngIf="!loading">
+  <div class="col-2">
+      <img [src]="artista.images | noimage" alt="" class="img-thumbnail img-circle">
+  </div>
+
+  <div class="col">
+      <h3> {{ artista.name }} </h3>
+      <p>
+          <a [href]="artista.external_urls.spotify" target="_blank">
+              Ir a la pagina del artista
+          </a>
+      </p>
+  </div>
+
+  <div class="col-4 text-right">
+      <button routerLink="/search" type="button" class="btn btn-danger">
+        Regresar
+      </button>
+  </div>
+</div>
+<div class="row m-5">
+    <h3>Canciones mas reproducidas</h3>
+</div>
+<div class="row m-5">
+    <div class="col">
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <td>Foto</td>
+                    <td>Nombre</td>
+                    <td>Album</td>
+                    <td>Vista previa</td>
+                </tr>
+            </thead>
+
+            <tbody *ngFor="let track of tracks">
+                <tr>
+                    <td>
+                        <img [src]="track.album.images | noimage" alt="" class="img-thumb">
+                    </td>
+                    <td>{{ track.name }}</td>
+                    <td>{{ track.album.name}}</td>
+                    <td>
+                        <!--<audio [src]="track.external_urls.preview_url" controls></audio>-->
+                        <iframe [src]="track.uri | domseguro" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+
+
+<div class="card-columns m-5 animated fadeIn cursor">
+  <div class="card" *ngFor="let track of tracks">
+    <img class="card-img-top" [src]=" track.album.images | noimage" alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title">{{track.name}}</h5>
+      <span class="badge badge-primary" *ngFor="let artista of track.artists">
+          {{ artista.name }}
+      </span>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+<app-tarjetas [items]="tracks"></app-tarjetas>
